@@ -4,6 +4,7 @@ import { state } from "@/model/state";
 
 import { Scene } from "./model/Scene";
 import { loadFigure } from "./model/triangulation";
+import { activateButton, deactivateButton } from "./interface/buttons";
 
 const rootElement = document.getElementById("three-js");
 const parentElement = rootElement.parentElement;
@@ -32,7 +33,11 @@ inputElements.forEach((element) => {
 });
 
 const sendButton = document.getElementById("send");
-sendButton.disabled = checkConeForm(state);
+if (checkConeForm(state)) {
+    activateButton(sendButton);
+} else {
+    deactivateButton(sendButton);
+}
 
 inputElements.forEach((element) => {
     element.oninput = (e) => {
@@ -40,6 +45,10 @@ inputElements.forEach((element) => {
             state[element.name] = e.target.value;
         }
         e.target.value = state[element.name];
-        sendButton.disabled = checkConeForm(state);
+        if (checkConeForm(state)) {
+            activateButton(sendButton);
+        } else {
+            deactivateButton(sendButton);
+        }
     };
 });

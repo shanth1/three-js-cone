@@ -11,14 +11,15 @@ export class Scene {
         element.appendChild(this.renderer.domElement);
 
         this.scene = new THREE.Scene();
+        this.scene.background = new THREE.Color(0xffffff);
         this.camera = new THREE.PerspectiveCamera(
-            75,
+            55,
             width / height,
             0.1,
             1000,
         );
-        this.camera.position.y = 20;
-        this.camera.position.z = 4.5;
+        this.camera.position.y = 25;
+        this.camera.position.z = 5.5;
         this.camera.rotation.x = -Math.PI / 2;
         this.camera.rotation.z = -Math.PI;
     }
@@ -34,7 +35,7 @@ export class Scene {
         geometry.computeVertexNormals();
 
         const material = new THREE.MeshLambertMaterial({
-            color: 0xff0000,
+            color: 0x1f7ee4,
             // side: THREE.DoubleSide,
         });
         const cone = new THREE.Mesh(geometry, material);
@@ -75,7 +76,7 @@ export class Scene {
         if (this.group) {
             this.group.rotation.x += 0;
             this.group.rotation.y += 0;
-            this.group.rotation.z += 0.03;
+            this.group.rotation.z += 0.005;
             this._render();
         } else {
             this._render();

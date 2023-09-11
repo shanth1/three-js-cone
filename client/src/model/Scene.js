@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-export class SceneClass {
+export class Scene {
     constructor(width, height, element) {
         this.renderer = new THREE.WebGLRenderer({
             alpha: false,
@@ -17,8 +17,8 @@ export class SceneClass {
             0.1,
             1000,
         );
-        this.camera.position.y = 6;
-        this.camera.position.z = 1;
+        this.camera.position.y = 20;
+        this.camera.position.z = 4.5;
         this.camera.rotation.x = -Math.PI / 2;
         this.camera.rotation.z = -Math.PI;
     }
@@ -56,11 +56,11 @@ export class SceneClass {
     }
 
     addLight() {
-        const ambientLight = new THREE.AmbientLight(0x999999);
+        const ambientLight = new THREE.AmbientLight(0xeeeeee);
         this.scene.add(ambientLight);
 
-        const spotLight = new THREE.PointLight(0xffffff, 300, 30, 2);
-        spotLight.position.set(2, 10, 3);
+        const spotLight = new THREE.PointLight(0xffffff, 1000, 20, 2.5);
+        spotLight.position.set(1, 10, 15);
         this.scene.add(spotLight);
     }
 

@@ -1,9 +1,13 @@
 @import "@/styles/null-style.scss";
 
 .scene{
-    display: block;
+    position: absolute;
     width: 100vw;
     height: 100vh;
     background-color: red;
     overflow: hidden;
+}
+
+button{
+    position: absolute;
 }

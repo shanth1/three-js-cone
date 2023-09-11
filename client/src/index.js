@@ -1,58 +1,49 @@
 import "./styles.scss";
 
-import { createScene } from "./model/scene";
-import { meshAnimation } from "./model/animation";
-import { addLight } from "./model/light";
-import { getMesh } from "./model/mesh";
+import axios from "axios";
+import { SceneClass } from "./model/SceneClass";
 
 const rootElement = document.getElementById("three-js");
 const parentElement = rootElement.parentElement;
 const { offsetWidth, offsetHeight } = parentElement;
 
-const isAnimated = true;
-
-const { renderer, camera, scene } = createScene(
-    offsetWidth,
-    offsetHeight,
-    rootElement,
-);
-
-const vertices = new Float32Array([
-    0,
-    0,
-    3, // v0
-    1,
-    0,
-    0, // v1
-    0,
-    1,
-    0, // v2
-    -1,
-    0,
-    0, // v3
-]);
-
-const indices = [0, 1, 2, 0, 2, 3];
-
-const mesh = getMesh(vertices, indices);
-scene.add(mesh);
-
-addLight(scene);
-
-renderer.render(scene, camera);
-const animate = () => {
-    requestAnimationFrame(animate);
-    meshAnimation(mesh);
-    renderer.render(scene, camera);
-};
-
-if (isAnimated) {
-    animate();
-}
+const scene = new SceneClass(offsetWidth, offsetHeight, rootElement);
+scene.addLight();
+scene.start();
 
 addEventListener("resize", () => {
     const { offsetWidth, offsetHeight } = parentElement;
-    camera.aspect = offsetWidth / offsetHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(offsetWidth, offsetHeight);
+    scene.updateScene(offsetWidth, offsetHeight);
 });
+
+const button = document.getElementById("sendButton");
+button.onclick = () => {
+    const height = 4;
+    const radius = 2;
+    const segmentNumber = 6;
+    axios
+        .get("http://localhost:4000/api/triangulation", {
+            params: {
+                height,
+                radius,
+                segmentNumber,
+            },
+        })
+        .then((response) => {
+            const basePoints = response.data;
+            const vertices = new Float32Array([
+                ...[0, 0, 0], // середина основания
+                ...[0, 0, height], // вершина
+                ...basePoints,
+            ]);
+            const indices = [];
+            for (let i = 0; i < segmentNumber - 1; i++) {
+                indices.push(0, i + 2, i + 3);
+                indices.push(1, i + 2, i + 3);
+            }
+            indices.push(0, segmentNumber - 1 + 2, 2);
+            indices.push(1, segmentNumber - 1 + 2, 2);
+            scene.updateMesh(vertices, indices);
+        })
+        .catch((e) => console.error(e));
+};

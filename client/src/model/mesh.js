@@ -1,9 +1,24 @@
 import * as THREE from "three";
 
-export const getMesh = () => {
-    const geometry = new THREE.ConeGeometry(2, 4, 10);
-    const material = new THREE.MeshNormalMaterial();
-    const cone = new THREE.Mesh(geometry, material);
+export const getMesh = (vertices, indices) => {
+    const geometry = new THREE.BufferGeometry();
 
-    return cone;
+    geometry.setIndex(indices);
+    geometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
+    geometry.computeVertexNormals();
+
+    const material = new THREE.MeshLambertMaterial({
+        color: 0xff0000,
+        side: THREE.DoubleSide,
+    });
+    const mesh = new THREE.Mesh(geometry, material);
+
+    const wireframe = new THREE.WireframeGeometry(geometry);
+    const line = new THREE.LineSegments(wireframe);
+
+    const group = new THREE.Group();
+    group.add(mesh);
+    group.add(line);
+
+    return group;
 };

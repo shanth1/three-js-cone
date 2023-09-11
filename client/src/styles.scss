@@ -1,8 +1,13 @@
-.test{
-    background-color: saddlebrown;
-    color: red;
+@import "@/styles/null-style.scss";
 
-    &_test{
-        background-color: green;
-    }
+.scene{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: red;
+    overflow: hidden;
+}
+
+button{
+    position: absolute;
 }

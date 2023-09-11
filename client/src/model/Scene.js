@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-export class SceneClass {
+export class Scene {
     constructor(width, height, element) {
         this.renderer = new THREE.WebGLRenderer({
             alpha: false,
@@ -11,14 +11,15 @@ export class SceneClass {
         element.appendChild(this.renderer.domElement);
 
         this.scene = new THREE.Scene();
+        this.scene.background = new THREE.Color(0xffffff);
         this.camera = new THREE.PerspectiveCamera(
-            75,
+            55,
             width / height,
             0.1,
             1000,
         );
-        this.camera.position.y = 6;
-        this.camera.position.z = 1;
+        this.camera.position.y = 25;
+        this.camera.position.z = 5.5;
         this.camera.rotation.x = -Math.PI / 2;
         this.camera.rotation.z = -Math.PI;
     }
@@ -34,7 +35,7 @@ export class SceneClass {
         geometry.computeVertexNormals();
 
         const material = new THREE.MeshLambertMaterial({
-            color: 0xff0000,
+            color: 0x1f7ee4,
             // side: THREE.DoubleSide,
         });
         const cone = new THREE.Mesh(geometry, material);
@@ -56,11 +57,11 @@ export class SceneClass {
     }
 
     addLight() {
-        const ambientLight = new THREE.AmbientLight(0x999999);
+        const ambientLight = new THREE.AmbientLight(0xeeeeee);
         this.scene.add(ambientLight);
 
-        const spotLight = new THREE.PointLight(0xffffff, 300, 30, 2);
-        spotLight.position.set(2, 10, 3);
+        const spotLight = new THREE.PointLight(0xffffff, 1000, 20, 2.5);
+        spotLight.position.set(1, 10, 15);
         this.scene.add(spotLight);
     }
 
@@ -75,7 +76,7 @@ export class SceneClass {
         if (this.group) {
             this.group.rotation.x += 0;
             this.group.rotation.y += 0;
-            this.group.rotation.z += 0.03;
+            this.group.rotation.z += 0.005;
             this._render();
         } else {
             this._render();

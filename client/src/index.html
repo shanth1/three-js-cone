@@ -8,6 +8,20 @@
     <div class="scene">
       <div id="three-js"></div>
     </div>
-    <button id="sendButton">Send data</button>
+    <form id="form" class="form">
+      <div>
+        <label class="form__label">Height</label> 
+        <input name="height" type="number" class="form__input">
+      </div>
+      <div>
+        <label class="form__label">Radius</label>
+        <input name="radius" type="number" class="form__input">
+      </div>
+      <div>
+        <label class="form__label">Segments</label>
+        <input name="segmentNumber" type="number" class="form__input">
+      </div>
+      <button id="send" class="form__button">Send data</button>
+    </form>
   </body>
 </html>
